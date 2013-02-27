@@ -110,6 +110,7 @@ extern "C" VALUE hyperbuilder_load(VALUE klass, VALUE bits, VALUE serialized) {
     hyperbuilder_set_register(builder->registers, r, estimatorValue);
   }
 
+  free(registers);
   return Data_Wrap_Struct(klass, 0, hyperbuilder_free, builder);
 }
 
