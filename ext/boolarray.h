@@ -134,7 +134,7 @@ public:
      * set all bits to 0
      */
     void reset() {
-        memset(&buffer[0],0,sizeof(uword)*buffer.size());
+        memset(&buffer[0],0,sizeof(uword)*(uint)buffer.size());
         sizeinbits = 0;
     }
 
