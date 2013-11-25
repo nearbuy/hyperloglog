@@ -4,6 +4,7 @@
 #include <string.h>
 #include <errno.h>
 #include <math.h>
+#include <vector>
 
 // Bitsets
 #include "ewah.h"
@@ -237,7 +238,7 @@ extern "C" VALUE hyperestimator_merge(VALUE estimators) {
   estimators = rb_funcall(estimators, rb_intern("flatten"), 0);
 
   uword32 bits = 0;
-  BoolArray<uword64> registers[RARRAY_LEN(estimators)];
+  std::vector<BoolArray<uword64> > registers;
 
   // Collect all the expanded registers
   for(int i = 0; i < RARRAY_LEN(estimators); i++) {
@@ -249,7 +250,7 @@ extern "C" VALUE hyperestimator_merge(VALUE estimators) {
     } else if(bits != estimator->bits) {
       rb_raise(rb_eRuntimeError, "Cannot union estimators that aren't of the same size");
     }
-    registers[i] = estimator->registers->toBoolArray();
+    registers.push_back(estimator->registers->toBoolArray());
   }
 
   uword32 registerCount = static_cast<uword32>(pow(2, bits));
